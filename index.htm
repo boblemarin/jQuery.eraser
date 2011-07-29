@@ -22,12 +22,20 @@
 
 			body { 
 				background: #FFF;
-				color: #FFF;
-				margin: 0px;
+				color: #000;
+				margin: 5px;
 				padding: 0px;
 				width: 100%;
-				overflow:hidden;
 				text-align: center;
+			}
+			
+			a {
+				display: inline-block;
+				color: #FFF;
+				background: #000;
+				padding: 10px;
+				margin: 10px;
+				font-family: Helvetica, Arial;
 			}
 			
 			
@@ -53,22 +61,33 @@
 			}
 			
 		</style>
+		<script src='js/jquery-1.6.2.min.js' type='text/javascript'></script>
+		<script src='js/jquery.eraser.js' type='text/javascript'></script>
+		<script type = "text/javascript">
+		/*
+			$(document).ready(function() {
+			   	
+			}).bind('touchstart', function(event) { event.preventDefault(); } );
+			*/
+			function init() {
+				$("#redux").eraser();				
+			}
+			
+			function remove() {
+				$("#redux").eraser('clear');
+			}
+			
+			function reset() {
+				$("#redux").eraser('reset');
+			}
+		</script>
 	</head>
-	<body>
+	<body onload="init();">
+		<p><a href="#" onclick="remove();"> CLEAR </a><a href="#" onclick="reset();"> RESET </a></p>
 		<span class="container">
 			<img id="robot" src="robot.jpg" />
 			<img id="redux" src="robot_redux.png" />
 		</span>
-		
-		<script src='js/jquery-1.6.2.min.js' type='text/javascript'></script>
-		<script src='js/jquery.eraser.js' type='text/javascript'></script>
-		<script type = "text/javascript">
-			$(document).ready(function() {
-			   	$("#redux").eraser();
-			}).bind('touchstart', function(event) { event.preventDefault(); } );
-		</script>
-		
 	</body>
-
 
 </html>
