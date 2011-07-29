@@ -2,3 +2,13 @@ jQuery.erase
 jQuery plugin that makes an image erasable (with mouse or touch movements)
 
 this plugins replaces the targeted image by an interactive canvas.
+
+
+KNOWN BUGS :
+
+- there's a big problem with the onload event with images in most browsers,
+so i have to find a solution to make the eraser start correctly anytime
+
+- Firefox is not my friend today.
+
+- positions go wrong if you resize your window. (should be easy to fix)
