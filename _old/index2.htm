@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<!--<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />-->
+		<meta name='viewport' content='user-scalable=0;' />
+		<meta name="viewport" content="width=device-width" />
+        <title>minimal/lab : grattons !</title>
+
+		<style type="text/css">  
+		* {
+		  -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
+		  -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
+		/* make transparent link selection, adjust last value opacity 0 to 1.0 */
+		  -webkit-tap-highlight-color: rgba(0,0,0,0); 
+		  -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
+		 /* -webkit-tap-highlight-color: rgba(0,0,0,0); */
+		}
+		
+			html, body { height: 100%; }
+
+			body { 
+				background: #FFF;
+				color: #FFF;
+				margin: 0px;
+				padding: 0px;
+				width: 100%;
+				overflow:hidden;
+				text-align: center;
+			}
+			
+			
+			.container { 
+				position: relative;
+				display: inline-block;
+				width: 533px;
+				height: 800px;
+			}
+			
+			#robot {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				z-index: 1;
+			}
+			
+			#redux {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				z-index: 2;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<span class="container">
+			<img id="robot" src="robot.jpg" />
+			<img id="redux" src="robot_redux.png" />
+		</span>
+		
+		<script src='js/jquery-1.6.2.min.js' type='text/javascript'></script>
+		<script src='js/jquery.scratch.js' type='text/javascript'></script>
+		<script type = "text/javascript">
+
+			$(document).ready(function() {
+			   	$("#redux").scratch();
+			}).bind('touchstart', function(event) { event.preventDefault(); } );
+
+		</script>
+		
+	</body>
+
+
+</html>
