@@ -1,4 +1,10 @@
 /*
+jQuery.eraser
+by boblemarin
+
+https://github.com/boblemarin/jQuery.eraser
+http://minimal.be/lab/jQuery.eraser/ (demo)
+
 TODO:
 	- add support for firefox ?
 	- fix the load event problem for all platforms :/
