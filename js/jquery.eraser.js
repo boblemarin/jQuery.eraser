@@ -27,11 +27,6 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/*
-TODO:
-- listen to window resize events and update offset
-*/
-
 (function( $ ){
 	var methods = {
 		init : function( options ) {
@@ -39,7 +34,7 @@ TODO:
 				var $this = $(this),
 					data = $this.data('eraser');
 
-					if ( !data ) {
+				if ( !data ) {
 					var width = $this.width(),
 						height = $this.height(),
 						pos = $this.offset(),
@@ -66,7 +61,7 @@ TODO:
 					$canvas.bind('touchmove.eraser', methods.touchMove);
 					$canvas.bind('touchend.eraser', methods.touchEnd);
 					// store values
-					$canvas.data('eraser', {
+					data = {
 						posX:pos.left,
 						posY:pos.top,
 						touchDown: false,
@@ -80,6 +75,12 @@ TODO:
 						w:width,
 						h:height,
 						source: this
+					};
+					$canvas.data('eraser', data);
+					$(window).resize( function() {
+						var pos = $canvas.offset();
+						data.posX = pos.left;
+						data.posY = pos.top;
 					});
 				}
 			});

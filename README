@@ -5,12 +5,41 @@ this plugin replaces the targeted image by an interactive canvas that can be era
 using touch ou mouse moves.
 
 
-KNOWN BUGS :
-- positions go wrong if you resize your window. (should be easy to fix)
+
+Check this :
+
+This plug-in only works with images. 
+The image must be loaded in the page because the eraser makes a copy of its data into a canvas.
+jQuery's ready and load events are not secure for calling eraser().
+In my testing, I have found that a simple <body onload="init();"> makes the trick.
 
 
-URLs:
-* https://github.com/boblemarin/jQuery.eraser
-* http://minimal.be/lab/jQuery.eraser/
 
-by boblemarin -> emeric@minimal.be
+
+Usage :
+
+
+To transform an image into an erasable canvas, just use this syntax :
+
+	$('#yourImage').eraser();
+
+
+You can reset the canvas (back to the original image) with this code :
+
+	$('#yourImage').eraser('reset');
+
+
+And you can erase all the canvas' content by calling :
+
+	$('#yourImage').eraser('clear');
+	
+	
+
+	
+URLs :
+
+	* https://github.com/boblemarin/jQuery.eraser
+	* http://minimal.be/lab/jQuery.eraser/
+
+
+by @boblemarin -> emeric@minimal.be
