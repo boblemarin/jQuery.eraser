@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<meta name='HandheldFriendly' content='True' />
 		<!--<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />-->
-		<meta name='viewport' content='user-scalable=0;' />
+		<meta name='viewport' content='user-scalable=0' />
 		<meta name="viewport" content="width=device-width" />
         <title>jQuery.eraser, a plugin that makes an image erasable (touch & mouse)</title>
 
@@ -71,25 +71,8 @@
 			}
 			
 		</style>
-		<script src='js/jquery-1.6.2.min.js' type='text/javascript'></script>
-		<script src='js/jquery.eraser.js' type='text/javascript'></script>
-		<script type = "text/javascript">
-			function init() {
-				$("#redux").eraser();				
-			}
-			
-			function remove(event) {
-				$("#redux").eraser('clear');
-				event.preventDefault();
-			}
-			
-			function reset(event) {
-				$("#redux").eraser('reset');
-				event.preventDefault();
-			}
-		</script>
 	</head>
-	<body onload="init();">
+	<body>
 		<h1>jQuery.eraser()</h1>
 		<p>a plugin that replaces the targeted image by an interactive canvas <br/>that can be erased
 		using touch ou mouse moves.<br/><b>try by yourself below...</b></p>
@@ -104,6 +87,29 @@
 		</p>
 
 		<p><a href="https://github.com/boblemarin/jQuery.eraser" class="big">Download on github</a><br/> ... and <a href="http://minimal.be/@">follow boblemarin</a></p>
+		
+		<script src='js/jquery-1.6.2.min.js' type='text/javascript'></script>
+		<script src='js/jquery.eraser.js' type='text/javascript'></script>
+		<script type = "text/javascript">
+		
+			addEventListener( "load", init, false );
+			
+			function init( event ) {
+				$("#redux").eraser();
+			}
+			
+			function remove(event) {
+				$("#redux").eraser('clear');
+				event.preventDefault();
+			}
+			
+			function reset(event) {
+				$("#redux").eraser('reset');
+				event.preventDefault();
+			}
+			
+		</script>
+		
 		<p>
 			<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 			<g:plusone></g:plusone>
@@ -119,6 +125,7 @@
 		var pageTracker = _gat._getTracker("UA-9528692-4");
 		pageTracker._trackPageview();
 		} catch(err) {}</script>
+		
 	</body>
 
 </html>

@@ -8,7 +8,7 @@ using touch ou mouse moves.
 
 Check this :
 
-This plug-in only works with images. 
+This plug-in only works with image or canvas elements.
 The image must be loaded in the page because the eraser makes a copy of its data into a canvas.
 jQuery's ready and load events are not secure for calling eraser().
 In my testing, I have found that a simple <body onload="init();"> makes the trick.
