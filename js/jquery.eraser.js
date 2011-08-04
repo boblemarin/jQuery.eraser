@@ -1,7 +1,20 @@
 /*
 * jQuery.eraser
+* makes any image or canvas user-erasable
+*
+* Usage:
+*
+* $('#myImage').eraser(); // simple way
+*
+* $(#canvas').eraser( { size: 20 } ); // define brush size (default value is 40)
+*
+* $('#image').eraser( 'clear' ); // removes canvas content
+*
+* $('#image').eraser( 'reset' ); // revert back to original content
+*
+*
 * https://github.com/boblemarin/jQuery.eraser
-* http://minimal.be/lab/jQuery.eraser/ (demo)
+* http://minimal.be/lab/jQuery.eraser/
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
 * 
@@ -50,16 +63,19 @@
 					canvas.height = height;
 					ctx.drawImage( this, 0, 0 );
 					$this.remove();
+					
 					// prepare context for drawing operations
 					ctx.globalCompositeOperation = "destination-out";
 					ctx.strokeStyle = 'rgba(255,0,0,255)';
-					ctx.lineWidth = 40;
+					ctx.lineWidth = ( options && options.size )?options.size:40;
+					
 					ctx.lineCap = "round";
 					// bind events
 					$canvas.bind('mousedown.eraser', methods.mouseDown);
 					$canvas.bind('touchstart.eraser', methods.touchStart);
 					$canvas.bind('touchmove.eraser', methods.touchMove);
 					$canvas.bind('touchend.eraser', methods.touchEnd);
+					
 					// store values
 					data = {
 						posX:pos.left,
@@ -77,6 +93,8 @@
 						source: this
 					};
 					$canvas.data('eraser', data);
+					
+					// listen for resize event to update offset values	
 					$(window).resize( function() {
 						var pos = $canvas.offset();
 						data.posX = pos.left;
