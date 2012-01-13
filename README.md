@@ -1,4 +1,4 @@
-#jQuery.eraser
+#jQuery.eraser v0.2
 jQuery plugin that makes an image erasable (with mouse or touch movements)
 
 this plugin replaces the targeted image by an interactive canvas that can be erased
@@ -12,7 +12,7 @@ This plug-in works with image or canvas elements.
 The images must be fully loaded before calling eraser().
 
 My conclusions are that the following code works in 
-- Safari, Chrome and Firefox on OS X
+- Safari, Chrome and Firefox on OS X and Windows
 - Mobile Safari on iOS
 - Android stock browser
 
