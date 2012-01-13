@@ -1,4 +1,4 @@
-jQuery.eraser
+#jQuery.eraser
 jQuery plugin that makes an image erasable (with mouse or touch movements)
 
 this plugin replaces the targeted image by an interactive canvas that can be erased
@@ -6,7 +6,7 @@ using touch ou mouse moves.
 
 
 
-Check this :
+#Check this :
 
 This plug-in works with image or canvas elements.
 The images must be fully loaded before calling eraser().
@@ -24,7 +24,7 @@ addEventListener( "load", init, false );
 
 
 
-Usage :
+#Usage :
 
 
 To transform an image or canvas into an erasable canvas, just use this syntax :
@@ -47,9 +47,16 @@ And you can erase all the canvas' content by calling :
 	$('#yourImage').eraser('clear');
 	
 	
+To get a callback when 50% of the image has been erased, use this :
+	
+	$('#yourImage').eraser( {
+		completeRatio: .5,
+		completeFunction: showResetButton
+	});
+
 
 	
-URLs :
+#URLs :
 
 	* https://github.com/boblemarin/jQuery.eraser
 	* http://minimal.be/lab/jQuery.eraser/

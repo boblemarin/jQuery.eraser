@@ -6,21 +6,13 @@
 		<!--<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />-->
 		<meta name='viewport' content='user-scalable=0' />
 		<meta name="viewport" content="width=device-width" />
-        <title>jQuery.eraser, a plugin that makes an image erasable (touch & mouse)</title>
+        <title>PLEASE BRUSH MY TEETH ! jQuery.eraser demo</title>
 
-		<style type="text/css">  
-		* {
-		  -webkit-touch-callout: none; /* prevent callout to copy image, etc when tap to hold */
-		  -webkit-text-size-adjust: none; /* prevent webkit from resizing text to fit */
-		/* make transparent link selection, adjust last value opacity 0 to 1.0 */
-		  -webkit-tap-highlight-color: rgba(0,0,0,0); 
-		  -webkit-user-select: none; /* prevent copy paste, to allow, change 'none' to 'text' */
-		 /* -webkit-tap-highlight-color: rgba(0,0,0,0); */
-		}
+		<style type="text/css">
 		
 			body { 
 				background: #FFF;
-				color: #000;
+				color: #FFF;
 				margin: 5px;
 				padding: 0px;
 				margin-bottom: 45px;
@@ -35,8 +27,8 @@
 			a.box {
 				text-decoration: none;
 				display: inline-block;
-				color: #FFF;
-				background: #000;
+				color: #000;
+				background: #DDD;
 				padding: 10px;
 				margin: 10px;
 			}
@@ -49,8 +41,8 @@
 			.container { 
 				position: relative;
 				display: inline-block;
-				width: 533px;
-				height: 800px;
+				width: 675px;
+				height: 850px;
 			}
 			
 			#robot {
@@ -58,37 +50,27 @@
 				top: 0px;
 				left: 0px;
 				z-index: 1;
-				-webkit-box-shadow: 0px 0px 20px 0px #707070;
-				-moz-box-shadow: 0px 0px 20px 0px #707070;
-				box-shadow: 0px 0px 20px 0px #707070;
 			}
 			
 			#redux {
 				position: absolute;
-				top: 0px;
-				left: 0px;
+				top: 444px;
+				left: 208px;
 				z-index: 2;
 			}
 			
 		</style>
 	</head>
 	<body>
-		<h1>jQuery.eraser()</h1>
-		<p>a plugin that replaces the targeted image by an interactive canvas <br/>that can be erased
-		using touch ou mouse moves.<br/><b>try by yourself below...</b></p>
-		<p><code id="percent">$("#myImage").eraser();</code></p>
 		<span class="container">
-			<img id="robot" src="img/robot.jpg" />
-			<img id="redux" src="img/robot_redux.png" />
+			<img id="robot" src="img/please.jpg" />
+			<img id="redux" src="img/overlay.jpg" />
 		</span>
 		<p>
 			<a href="#" onclick="reset(event);" class="box"> RESET </a>
 			<a href="#" onclick="remove(event);" class="box"> CLEAR </a>
 		</p>
 
-		<p><a href="https://github.com/boblemarin/jQuery.eraser" class="big">Download on github</a><br/> ... and <a href="http://minimal.be/@">follow boblemarin</a><br/>
-			<a href="teeth.htm">or brush his teeth</a>.</p>
-		
 		<script src='js/jquery-1.6.2.min.js' type='text/javascript'></script>
 		<script src='js/jquery.eraser.js' type='text/javascript'></script>
 		<script type = "text/javascript">
@@ -96,7 +78,7 @@
 			addEventListener( "load", init, false );
 			
 			function init( event ) {
-				$("#redux").eraser();
+				$("#redux").eraser( { size: 10 } );
 				
 				// you can alse specify the brush size (in pixel) by using options :
 				// $("#redux").eraser({size: 20});
@@ -114,11 +96,13 @@
 			
 		</script>
 		
+		<p><a href="index.htm">Made with jQuery.eraser()</a></p>
+		
 		<p>
 			<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 			<g:plusone></g:plusone>
 			<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="boblemarin">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-			<iframe src="http://www.facebook.com/plugins/like.php?app_id=221981371170477&amp;href=http%3A%2F%2Fminimal.be%2Flab%2FjQuery.eraser%2F&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:160px; height:21px;" allowTransparency="true"></iframe>
+			<iframe src="http://www.facebook.com/plugins/like.php?app_id=221981371170477&amp;href=http%3A%2F%2Fminimal.be%2Flab%2FjQuery.eraser%2Fteeth.htm&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:160px; height:21px;" allowTransparency="true"></iframe>
 		</p>
 		<script type="text/javascript">
 		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
