@@ -11,12 +11,7 @@ This plug-in works with image or canvas elements.
 The images must be fully loaded before calling eraser().
 
 
-My conclusions are that the following code works in :
-
-#Safari, Chrome and Firefox on OS X and Windows
-#Mobile Safari on iOS
-#Android stock browser
-#BlackBerry Tablet Browser
+My conclusions are that the following code works in Safari, Chrome and Firefox on OS X and Windows, Mobile Safari on iOS, Android and BlackBerry browsers :
 
 
 	function init ( event ) {
