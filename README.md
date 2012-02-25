@@ -12,10 +12,10 @@ The images must be fully loaded before calling eraser().
 
 
 My conclusions are that the following code works in 
-	- Safari, Chrome and Firefox on OS X and Windows
-	- Mobile Safari on iOS
-	- Android stock browser
-	- BlackBerry Tablet Browser
+	-Safari, Chrome and Firefox on OS X and Windows
+	-Mobile Safari on iOS
+	-Android stock browser
+	-BlackBerry Tablet Browser
 
 
 	function init ( event ) {
