@@ -1,12 +1,16 @@
 /*
 * jQuery.eraser v0.2
-* makes any image or canvas user-erasable
+* makes any image or canvas erasable by the user, using touch or mouse input
 *
 * Usage:
 *
 * $('#myImage').eraser(); // simple way
 *
-* $(#canvas').eraser( { size: 20 } ); // define brush size (default value is 40)
+* $(#canvas').eraser( { 
+*   size: 20, // define brush size (default value is 40)
+*   completeRatio: .65, // allows to call function when a erased ratio is reached (between 0 and 1, default is .7 )
+*   completeFunction: myFunction // callback function when complete ratio is reached
+* } ); 
 *
 * $('#image').eraser( 'clear' ); // removes canvas content
 *
@@ -54,6 +58,8 @@
 						$canvas = $("<canvas/>"),
 						canvas = $canvas.get(0),
 						size = ( options && options.size )?options.size:40,
+						completeRatio = ( options && options.completeRatio )?options.completeRatio:.7,
+						completeFunction = ( options && options.completeFunction )?options.completeFunction:null,
 						parts = [],
 						colParts = Math.floor( width / size ),
 						numParts = colParts * Math.floor( height / size ),
@@ -103,7 +109,10 @@
 						parts: parts,
 						colParts: colParts,
 						numParts: numParts,
-						ratio: 0
+						ratio: 0,
+						complete: false,
+						completeRatio: completeRatio,
+						completeFunction: completeFunction
 					};
 					$canvas.data('eraser', data);
 					
@@ -129,8 +138,6 @@
 				data.touchID = t.identifier;
 				data.touchX = tx;
 				data.touchY = ty;
-				data.ratio += data.parts[p];
-				data.parts[p] = 0;
 				event.preventDefault();
 			}
 		},
@@ -178,7 +185,13 @@
 			if ( p >= 0 && p < data.numParts ) {
 				data.ratio += data.parts[p];
 				data.parts[p] = 0;
-				document.getElementById("percent").innerHTML = Math.round(data.ratio/data.numParts*100)+"%";
+				if ( !data.complete) {
+					if ( data.ratio/data.numParts >= data.completeRatio ) {
+						data.complete = true;
+						if ( data.completeFunction != null ) data.completeFunction();
+					}
+				}
+				//document.getElementById("percent").innerHTML = Math.round(data.ratio/data.numParts*100)+"%";
 			}
 
 		},
@@ -235,6 +248,8 @@
 				var n = data.numParts;
 				while( n-- ) data.parts[n] = 0;
 				data.ratio = data.numParts;
+				data.complete = true;
+				if ( data.completeFunction != null ) data.completeFunction();
 			}
 		},
 		
@@ -249,6 +264,7 @@
 				var n = data.numParts;
 				while( n-- ) data.parts[n] = 1;
 				data.ratio = 0;
+				data.complete = false;
 			}
 			
 		}

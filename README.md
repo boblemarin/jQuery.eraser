@@ -5,16 +5,17 @@ this plugin replaces the targeted image by an interactive canvas that can be era
 using touch ou mouse moves.
 
 
-
 #Check this :
 
 This plug-in works with image or canvas elements.
 The images must be fully loaded before calling eraser().
 
+
 My conclusions are that the following code works in 
 - Safari, Chrome and Firefox on OS X and Windows
 - Mobile Safari on iOS
 - Android stock browser
+- BlackBerry Tablet Browser
 
 
 function init ( event ) {
