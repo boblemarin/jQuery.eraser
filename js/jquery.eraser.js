@@ -191,7 +191,6 @@
 						if ( data.completeFunction != null ) data.completeFunction();
 					}
 				}
-				//document.getElementById("percent").innerHTML = Math.round(data.ratio/data.numParts*100)+"%";
 			}
 
 		},
