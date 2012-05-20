@@ -252,6 +252,16 @@
 			}
 		},
 		
+		size: function(value) {
+			var $this = $(this),
+				data = $this.data('eraser');
+			if ( data && value )
+			{
+				data.size = value;
+				data.ctx.lineWidth = value;
+			}
+		},
+		
 		reset: function() {
 			var $this = $(this),
 				data = $this.data('eraser');
@@ -265,8 +275,8 @@
 				data.ratio = 0;
 				data.complete = false;
 			}
-			
 		}
+		
 	};
 
 	$.fn.eraser = function( method ) {
