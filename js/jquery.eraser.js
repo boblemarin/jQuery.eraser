@@ -1,6 +1,7 @@
 /*
-* jQuery.eraser v0.2
+* jQuery.eraser v0.3
 * makes any image or canvas erasable by the user, using touch or mouse input
+* https://github.com/boblemarin/jQuery.eraser 
 *
 * Usage:
 *
@@ -12,9 +13,11 @@
 *   completeFunction: myFunction // callback function when complete ratio is reached
 * } ); 
 *
-* $('#image').eraser( 'clear' ); // removes canvas content
+* $('#image').eraser( 'clear' ); // erases all canvas content
 *
 * $('#image').eraser( 'reset' ); // revert back to original content
+*
+* $('#image').eraser( 'size', 80 ); // change the eraser size
 *
 *
 * https://github.com/boblemarin/jQuery.eraser

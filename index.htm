@@ -84,6 +84,7 @@
 		<p>
 			<a href="#" onclick="reset(event);" class="box"> RESET </a>
 			<a href="#" onclick="remove(event);" class="box"> CLEAR </a>
+			<!--<a href="#" onclick="grow(event);" class="box"> GROW </a>-->
 		</p>
 
 		<p><a href="https://github.com/boblemarin/jQuery.eraser" class="big">Download on github</a><br/> ... and <a href="http://minimal.be/@">follow boblemarin</a><br/>
@@ -112,6 +113,10 @@
 				event.preventDefault();
 			}
 			
+			function grow(event) {
+				$("#redux").eraser("size",200);
+				event.preventDefault();
+			}
 		</script>
 		
 		<p>
