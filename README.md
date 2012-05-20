@@ -1,5 +1,6 @@
 #jQuery.eraser v0.3
-jQuery plugin that makes an image erasable (with mouse or touch movements)
+
+a jQuery plugin that makes an image erasable (with mouse or touch movements)
 
 This plugin replaces the targeted image by an interactive canvas that can be erased using touch or mouse inputs. You can specify a callback for completion and set the brush size.
 
