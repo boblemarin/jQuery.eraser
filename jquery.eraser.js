@@ -1,5 +1,5 @@
 /*
-* jQuery.eraser v0.3
+* jQuery.eraser v0.4
 * makes any image or canvas erasable by the user, using touch or mouse input
 * https://github.com/boblemarin/jQuery.eraser 
 *
