@@ -212,7 +212,7 @@
 			data.ctx.lineTo( data.touchX, data.touchY );
 			data.ctx.stroke();
 			$this.bind('mousemove.eraser', methods.mouseMove);
-			$(document.body).bind('mouseup.eraser', data, methods.mouseUp);
+			$(document).bind('mouseup.eraser', data, methods.mouseUp);
 			event.preventDefault();
 		},
 		
@@ -236,7 +236,7 @@
 				$this = data.canvas;
 			data.touchDown = false;
 			$this.unbind('mousemove.eraser');
-			$(document.body).unbind('mouseup.eraser');
+			$(document).unbind('mouseup.eraser');
 			event.preventDefault();
 		},
 		
