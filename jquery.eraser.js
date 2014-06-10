@@ -1,17 +1,17 @@
 /*
-* jQuery.eraser v0.4
+* jQuery.eraser v0.4.0
 * makes any image or canvas erasable by the user, using touch or mouse input
-* https://github.com/boblemarin/jQuery.eraser 
+* https://github.com/boblemarin/jQuery.eraser
 *
 * Usage:
 *
 * $('#myImage').eraser(); // simple way
 *
-* $(#canvas').eraser( { 
+* $(#canvas').eraser( {
 *   size: 20, // define brush size (default value is 40)
 *   completeRatio: .65, // allows to call function when a erased ratio is reached (between 0 and 1, default is .7 )
 *   completeFunction: myFunction // callback function when complete ratio is reached
-* } ); 
+* } );
 *
 * $('#image').eraser( 'clear' ); // erases all canvas content
 *
@@ -24,7 +24,7 @@
 * http://minimal.be/lab/jQuery.eraser/
 *
 * Copyright (c) 2010 boblemarin emeric@minimal.be http://www.minimal.be
-* 
+*
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
 * files (the "Software"), to deal in the Software without
@@ -33,10 +33,10 @@
 * copies of the Software, and to permit persons to whom the
 * Software is furnished to do so, subject to the following
 * conditions:
-* 
+*
 * The above copyright notice and this permission notice shall be
 * included in all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -68,7 +68,7 @@
 						numParts = colParts * Math.floor( height / size ),
 						n = numParts,
 						ctx = canvas.getContext("2d");
-						
+
 					// replace target with canvas
 					$this.after( $canvas );
 					canvas.id = this.id;
@@ -77,22 +77,22 @@
 					canvas.height = height;
 					ctx.drawImage( this, 0, 0 );
 					$this.remove();
-					
+
 					// prepare context for drawing operations
 					ctx.globalCompositeOperation = "destination-out";
 					ctx.strokeStyle = 'rgba(255,0,0,255)';
 					ctx.lineWidth = size;
-					
+
 					ctx.lineCap = "round";
 					// bind events
 					$canvas.bind('mousedown.eraser', methods.mouseDown);
 					$canvas.bind('touchstart.eraser', methods.touchStart);
 					$canvas.bind('touchmove.eraser', methods.touchMove);
 					$canvas.bind('touchend.eraser', methods.touchEnd);
-					
+
 					// reset parts
 					while( n-- ) parts.push(1);
-					
+
 					// store values
 					data = {
 						posX:pos.left,
@@ -118,8 +118,8 @@
 						completeFunction: completeFunction
 					};
 					$canvas.data('eraser', data);
-					
-					// listen for resize event to update offset values	
+
+					// listen for resize event to update offset values
 					$(window).resize( function() {
 						var pos = $canvas.offset();
 						data.posX = pos.left;
@@ -131,7 +131,7 @@
 		touchStart: function( event ) {
 			var $this = $(this),
 				data = $this.data('eraser');
-				
+
 			if ( !data.touchDown ) {
 				var t = event.originalEvent.changedTouches[0],
 					tx = t.pageX - data.posX,
@@ -147,11 +147,11 @@
 		touchMove: function( event ) {
 			var $this = $(this),
 				data = $this.data('eraser');
-				
+
 			if ( data.touchDown ) {
 				var ta = event.originalEvent.changedTouches,
 					n = ta.length;
-				while( n-- ) 
+				while( n-- )
 					if ( ta[n].identifier == data.touchID ) {
 						var tx = ta[n].pageX - data.posX,
 							ty = ta[n].pageY - data.posY;
@@ -170,7 +170,7 @@
 		touchEnd: function( event ) {
 			var $this = $(this),
 				data = $this.data('eraser');
-				
+
 			if ( data.touchDown ) {
 				var ta = event.originalEvent.changedTouches,
 					n = ta.length;
@@ -182,7 +182,7 @@
 					}
 			}
 		},
-		
+
 		evaluatePoint: function( data, tx, ty ) {
 			var p = Math.floor(tx/data.size) + Math.floor( ty / data.size ) * data.colParts;
 			if ( p >= 0 && p < data.numParts ) {
@@ -197,13 +197,13 @@
 			}
 
 		},
-		
+
 		mouseDown: function( event ) {
 			var $this = $(this),
 				data = $this.data('eraser'),
 				tx = event.pageX - data.posX,
 				ty = event.pageY - data.posY;
-			methods.evaluatePoint( data, tx, ty );				
+			methods.evaluatePoint( data, tx, ty );
 			data.touchDown = true;
 			data.touchX = tx;
 			data.touchY = ty;
@@ -215,7 +215,7 @@
 			$(document).bind('mouseup.eraser', data, methods.mouseUp);
 			event.preventDefault();
 		},
-		
+
 		mouseMove: function( event ) {
 			var $this = $(this),
 				data = $this.data('eraser'),
@@ -230,7 +230,7 @@
 			data.ctx.stroke();
 			event.preventDefault();
 		},
-		
+
 		mouseUp: function( event ) {
 			var data = event.data,
 				$this = data.canvas;
@@ -239,7 +239,7 @@
 			$(document).unbind('mouseup.eraser');
 			event.preventDefault();
 		},
-		
+
 		clear: function() {
 			var $this = $(this),
 				data = $this.data('eraser');
@@ -253,7 +253,7 @@
 				if ( data.completeFunction != null ) data.completeFunction();
 			}
 		},
-		
+
 		size: function(value) {
 			var $this = $(this),
 				data = $this.data('eraser');
@@ -263,7 +263,7 @@
 				data.ctx.lineWidth = value;
 			}
 		},
-		
+
 		reset: function() {
 			var $this = $(this),
 				data = $this.data('eraser');
@@ -278,7 +278,7 @@
 				data.complete = false;
 			}
 		}
-		
+
 	};
 
 	$.fn.eraser = function( method ) {
