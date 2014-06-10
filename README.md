@@ -1,4 +1,4 @@
-#jQuery.eraser v0.4.1
+#jQuery.eraser v0.4.2
 
 a jQuery plugin that makes an image erasable (with mouse or touch movements)
 
