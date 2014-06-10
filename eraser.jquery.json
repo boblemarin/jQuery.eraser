@@ -1,7 +1,7 @@
 {
     "name": "eraser",
     "title": "jQuery Eraser",
-    "description": "A jQuery plugin that makes an image erasable (with mouse or touch movements) through its replacement by a canvas",
+    "description": "Transforms an image into an erasable canvas (with mouse and touch)",
     "keywords": [
         "erase",
         "image",
@@ -10,15 +10,16 @@
     ],
     "version": "0.4.1",
     "author": {
-        "name": "@boblemarin",
+        "name": "boblemarin",
+        "email": "emeric@minimal.be",
         "url": "https://github.com/boblemarin"
     },
     "maintainers": [
-        {
-            "name": "Emeric Florence",
-            "email": "emeric@minimal.be",
-            "url": "http://minimal.be"
-        }
+    {
+        "name": "boblemarin",
+        "email": "emeric@minimal.be",
+        "url": "http://minimal.be"
+    }
     ],
     "licenses": [
         {
