@@ -3,14 +3,13 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name='HandheldFriendly' content='True' />
-		<!--<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />-->
 		<meta name='viewport' content='user-scalable=0' />
 		<meta name="viewport" content="width=device-width" />
-        <title>PLEASE BRUSH MY TEETH ! jQuery.eraser demo</title>
+    <title>PLEASE BRUSH MY TEETH ! jQuery.eraser demo</title>
 
 		<style type="text/css">
-		
-			body { 
+
+			body {
 				background: #FFF;
 				color: #FFF;
 				margin: 5px;
@@ -19,11 +18,11 @@
 				text-align: center;
 				font-family: Helvetica, Arial;
 			}
-			
+
 			a {
 				color: #000;
 			}
-			
+
 			a.box {
 				text-decoration: none;
 				display: inline-block;
@@ -32,33 +31,33 @@
 				padding: 10px;
 				margin: 10px;
 			}
-			
+
 			.big {
 				font-size: 2em;
 				display: inline-block;
 				margin: 10px;
 			}
-			.container { 
+			.container {
 				position: relative;
 				display: inline-block;
 				width: 675px;
 				height: 850px;
 			}
-			
+
 			#robot {
 				position: absolute;
 				top: 0px;
 				left: 0px;
 				z-index: 1;
 			}
-			
+
 			#redux {
 				position: absolute;
 				top: 444px;
 				left: 208px;
 				z-index: 2;
 			}
-			
+
 		</style>
 	</head>
 	<body>
@@ -71,33 +70,33 @@
 			<a href="#" onclick="remove(event);" class="box"> CLEAR </a>
 		</p>
 
-		<script src='jquery-1.6.2.min.js' type='text/javascript'></script>
+		<script src='http://code.jquery.com/jquery-2.1.1.min.js' type='text/javascript'></script>
 		<script src='jquery.eraser.js' type='text/javascript'></script>
 		<script type = "text/javascript">
-		
+
 			addEventListener( "load", init, false );
-			
+
 			function init( event ) {
 				$("#redux").eraser( { size: 10 } );
-				
+
 				// you can alse specify the brush size (in pixel) by using options :
 				// $("#redux").eraser({size: 20});
 			}
-			
+
 			function remove(event) {
 				$("#redux").eraser('clear');
 				event.preventDefault();
 			}
-			
+
 			function reset(event) {
 				$("#redux").eraser('reset');
 				event.preventDefault();
 			}
-			
+
 		</script>
-		
-		<p><a href="index.htm">Made with jQuery.eraser()</a></p>
-		
+
+		<p><a href="index.html">Made with jQuery.eraser()</a></p>
+
 	</body>
 
 </html>
