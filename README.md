@@ -1,4 +1,4 @@
-#jQuery.eraser v0.4.2
+#jQuery.eraser v0.5.0
 
 a jQuery plugin that makes an image erasable (with mouse or touch movements)
 
@@ -7,20 +7,11 @@ This plugin replaces the targeted image by an interactive canvas that can be era
 Please note that I don't claim that the completion detection process is ultimately accurate. In fact you should rather use a completeRatio around 0.8 if you want a near-complete erase process.
 
 
+#What's new in 0.5.0
 
-#Check this :
+Eraser now takes care of checking if the target image is already loaded. If not, it registers a callback on the load event and waits for the bitmap data to be available.
 
-This plug-in works with image or canvas elements but you must make sure that the images are fully loaded before calling the eraser(), or it won't work.
-
-
-My conclusions are that the following code works in Safari, Chrome and Firefox on OS X and Windows, iOS, Android and BlackBerry browsers :
-
-
-	function init ( event ) {
-		$("#image").eraser();
-	}
-	addEventListener( "load", init, false );
-
+You don't have to worry anymore about anything but erasing.
 
 
 #Usage :

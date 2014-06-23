@@ -1,102 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name='HandheldFriendly' content='True' />
-		<meta name='viewport' content='user-scalable=0' />
-		<meta name="viewport" content="width=device-width" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name='HandheldFriendly' content='True' />
+    <meta name='viewport' content='user-scalable=0' />
+    <meta name="viewport" content="width=device-width" />
     <title>PLEASE BRUSH MY TEETH ! jQuery.eraser demo</title>
 
-		<style type="text/css">
+    <style type="text/css">
 
-			body {
-				background: #FFF;
-				color: #FFF;
-				margin: 5px;
-				padding: 0px;
-				margin-bottom: 45px;
-				text-align: center;
-				font-family: Helvetica, Arial;
-			}
+      body {
+        background: #FFF;
+        color: #FFF;
+        margin: 5px;
+        padding: 0px;
+        margin-bottom: 45px;
+        text-align: center;
+        font-family: Helvetica, Arial;
+      }
 
-			a {
-				color: #000;
-			}
+      a {
+        color: #000;
+      }
 
-			a.box {
-				text-decoration: none;
-				display: inline-block;
-				color: #000;
-				background: #DDD;
-				padding: 10px;
-				margin: 10px;
-			}
+      a.box {
+        text-decoration: none;
+        display: inline-block;
+        color: #000;
+        background: #DDD;
+        padding: 10px;
+        margin: 10px;
+      }
 
-			.big {
-				font-size: 2em;
-				display: inline-block;
-				margin: 10px;
-			}
-			.container {
-				position: relative;
-				display: inline-block;
-				width: 675px;
-				height: 850px;
-			}
+      .big {
+        font-size: 2em;
+        display: inline-block;
+        margin: 10px;
+      }
+      .container {
+        position: relative;
+        display: inline-block;
+        width: 675px;
+        height: 850px;
+      }
 
-			#robot {
-				position: absolute;
-				top: 0px;
-				left: 0px;
-				z-index: 1;
-			}
+      #robot {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+      }
 
-			#redux {
-				position: absolute;
-				top: 444px;
-				left: 208px;
-				z-index: 2;
-			}
+      #redux {
+        position: absolute;
+        top: 444px;
+        left: 208px;
+        z-index: 2;
+      }
 
-		</style>
-	</head>
-	<body>
-		<span class="container">
-			<img id="robot" src="img/please.jpg" />
-			<img id="redux" src="img/overlay.jpg" />
-		</span>
-		<p>
-			<a href="#" onclick="reset(event);" class="box"> RESET </a>
-			<a href="#" onclick="remove(event);" class="box"> CLEAR </a>
-		</p>
+    </style>
+  </head>
+  <body>
+    <span class="container">
+      <img id="robot" src="img/please.jpg" />
+      <img id="redux" src="img/overlay.jpg" />
+    </span>
+    <p>
+      <a href="#" onclick="reset(event);" class="box"> RESET </a>
+      <a href="#" onclick="remove(event);" class="box"> CLEAR </a>
+    </p>
 
-		<script src='http://code.jquery.com/jquery-2.1.1.min.js' type='text/javascript'></script>
-		<script src='jquery.eraser.js' type='text/javascript'></script>
-		<script type = "text/javascript">
+    <script src='http://code.jquery.com/jquery-2.1.1.min.js' type='text/javascript'></script>
+    <script src='jquery.eraser.js' type='text/javascript'></script>
+    <script type = "text/javascript">
 
-			addEventListener( "load", init, false );
+      $(function(){
+        $('#redux').eraser({size: 10});
+      });
 
-			function init( event ) {
-				$("#redux").eraser( { size: 10 } );
 
-				// you can alse specify the brush size (in pixel) by using options :
-				// $("#redux").eraser({size: 20});
-			}
+      function remove(event) {
+        $("#redux").eraser('clear');
+        event.preventDefault();
+      }
 
-			function remove(event) {
-				$("#redux").eraser('clear');
-				event.preventDefault();
-			}
+      function reset(event) {
+        $("#redux").eraser('reset');
+        event.preventDefault();
+      }
 
-			function reset(event) {
-				$("#redux").eraser('reset');
-				event.preventDefault();
-			}
+    </script>
 
-		</script>
+    <p><a href="index.html">Made with jQuery.eraser()</a></p>
 
-		<p><a href="index.html">Made with jQuery.eraser()</a></p>
-
-	</body>
+  </body>
 
 </html>
