@@ -8,7 +8,7 @@
         "canvas",
         "touch"
     ],
-    "version": "0.5.0",
+    "version": "0.5.1",
     "author": {
         "name": "boblemarin",
         "email": "emeric@minimal.be",
@@ -27,9 +27,6 @@
             "url": "MIT-LICENSE.txt"
         }
     ],
-    "dependencies": {
-        "jquery": ">1"
-    },
     "bugs": "https://github.com/boblemarin/jQuery.eraser/issues",
     "homepage": "https://github.com/boblemarin/jQuery.eraser",
     "docs": "https://github.com/boblemarin/jQuery.eraser",

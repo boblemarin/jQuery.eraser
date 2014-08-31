@@ -1,5 +1,5 @@
 /*
-* jQuery.eraser v0.5.0
+* jQuery.eraser v0.5.1
 * makes any image or canvas erasable by the user, using touch or mouse input
 * https://github.com/boblemarin/jQuery.eraser
 *
@@ -49,6 +49,7 @@
 
 (function($){
   var methods = {
+
     init: function(options) {
       return this.each(function(){
         var $this = $(this),
@@ -87,7 +88,7 @@
             ctx.strokeStyle = 'rgba(255,0,0,255)';
             ctx.lineWidth = size;
 
-            ctx.lineCap = "round";
+            ctx.lineCap = 'round';
             // bind events
             $canvas.bind('mousedown.eraser', methods.mouseDown);
             $canvas.bind('touchstart.eraser', methods.touchStart);
@@ -95,22 +96,22 @@
             $canvas.bind('touchend.eraser', methods.touchEnd);
 
             // reset parts
-            while( n-- ) parts.push(1);
+            while(n--) parts.push(1);
 
             // store values
             data = {
-              posX:pos.left,
-              posY:pos.top,
+              posX: pos.left,
+              posY: pos.top,
               touchDown: false,
-              touchID:-999,
+              touchID: -999,
               touchX: 0,
               touchY: 0,
               ptouchX: 0,
               ptouchY: 0,
               canvas: $canvas,
               ctx: ctx,
-              w:width,
-              h:height,
+              w: width,
+              h: height,
               source: that,
               size: size,
               parts: parts,
@@ -124,7 +125,7 @@
             $canvas.data('eraser', data);
 
             // listen for resize event to update offset values
-            $(window).resize( function() {
+            $(window).resize(function() {
               var pos = $canvas.offset();
               data.posX = pos.left;
               data.posY = pos.top;
@@ -140,15 +141,16 @@
         }
       });
     },
-    touchStart: function( event ) {
-      var $this = $(this),
-        data = $this.data('eraser');
 
-      if ( !data.touchDown ) {
+    touchStart: function(event) {
+      var $this = $(this),
+          data = $this.data('eraser');
+
+      if (!data.touchDown) {
         var t = event.originalEvent.changedTouches[0],
-          tx = t.pageX - data.posX,
-          ty = t.pageY - data.posY;
-        methods.evaluatePoint( data, tx, ty );
+            tx = t.pageX - data.posX,
+            ty = t.pageY - data.posY;
+        methods.evaluatePoint(data, tx, ty);
         data.touchDown = true;
         data.touchID = t.identifier;
         data.touchX = tx;
@@ -156,47 +158,52 @@
         event.preventDefault();
       }
     },
-    touchMove: function( event ) {
-      var $this = $(this),
-        data = $this.data('eraser');
 
-      if ( data.touchDown ) {
+    touchMove: function(event) {
+      var $this = $(this),
+          data = $this.data('eraser');
+
+      if (data.touchDown) {
         var ta = event.originalEvent.changedTouches,
-          n = ta.length;
-        while( n-- )
-          if ( ta[n].identifier == data.touchID ) {
+            n = ta.length;
+        while (n--) {
+          if (ta[n].identifier == data.touchID) {
             var tx = ta[n].pageX - data.posX,
-              ty = ta[n].pageY - data.posY;
-            methods.evaluatePoint( data, tx, ty );
+                ty = ta[n].pageY - data.posY;
+            methods.evaluatePoint(data, tx, ty);
             data.ctx.beginPath();
-            data.ctx.moveTo( data.touchX, data.touchY );
+            data.ctx.moveTo(data.touchX, data.touchY);
             data.touchX = tx;
             data.touchY = ty;
-            data.ctx.lineTo( data.touchX, data.touchY );
+            data.ctx.lineTo(data.touchX, data.touchY);
             data.ctx.stroke();
             event.preventDefault();
             break;
           }
+        }
       }
     },
-    touchEnd: function( event ) {
+
+    touchEnd: function(event) {
       var $this = $(this),
         data = $this.data('eraser');
 
       if ( data.touchDown ) {
         var ta = event.originalEvent.changedTouches,
           n = ta.length;
-        while( n-- )
+        while( n-- ) {
           if ( ta[n].identifier == data.touchID ) {
             data.touchDown = false;
             event.preventDefault();
             break;
           }
+        }
       }
     },
 
-    evaluatePoint: function( data, tx, ty ) {
+    evaluatePoint: function(data, tx, ty) {
       var p = Math.floor(tx/data.size) + Math.floor( ty / data.size ) * data.colParts;
+
       if ( p >= 0 && p < data.numParts ) {
         data.ratio += data.parts[p];
         data.parts[p] = 0;
@@ -213,29 +220,31 @@
 
     },
 
-    mouseDown: function( event ) {
+    mouseDown: function(event) {
       var $this = $(this),
-        data = $this.data('eraser'),
-        tx = event.pageX - data.posX,
-        ty = event.pageY - data.posY;
+          data = $this.data('eraser'),
+          tx = event.pageX - data.posX,
+          ty = event.pageY - data.posY;
+
       methods.evaluatePoint( data, tx, ty );
       data.touchDown = true;
       data.touchX = tx;
       data.touchY = ty;
       data.ctx.beginPath();
-      data.ctx.moveTo( data.touchX-1, data.touchY );
-      data.ctx.lineTo( data.touchX, data.touchY );
+      data.ctx.moveTo(data.touchX-1, data.touchY);
+      data.ctx.lineTo(data.touchX, data.touchY);
       data.ctx.stroke();
       $this.bind('mousemove.eraser', methods.mouseMove);
       $(document).bind('mouseup.eraser', data, methods.mouseUp);
       event.preventDefault();
     },
 
-    mouseMove: function( event ) {
+    mouseMove: function(event) {
       var $this = $(this),
-        data = $this.data('eraser'),
-        tx = event.pageX - data.posX,
-        ty = event.pageY - data.posY;
+          data = $this.data('eraser'),
+          tx = event.pageX - data.posX,
+          ty = event.pageY - data.posY;
+
       methods.evaluatePoint( data, tx, ty );
       data.ctx.beginPath();
       data.ctx.moveTo( data.touchX, data.touchY );
@@ -246,9 +255,10 @@
       event.preventDefault();
     },
 
-    mouseUp: function( event ) {
+    mouseUp: function(event) {
       var data = event.data,
-        $this = data.canvas;
+          $this = data.canvas;
+
       data.touchDown = false;
       $this.unbind('mousemove.eraser');
       $(document).unbind('mouseup.eraser');
@@ -257,23 +267,23 @@
 
     clear: function() {
       var $this = $(this),
-        data = $this.data('eraser');
-      if ( data )
-      {
-        data.ctx.clearRect( 0, 0, data.w, data.h );
+          data = $this.data('eraser');
+
+      if (data) {
+        data.ctx.clearRect(0, 0, data.w, data.h);
         var n = data.numParts;
-        while( n-- ) data.parts[n] = 0;
+        while(n--) data.parts[n] = 0;
         data.ratio = data.numParts;
         data.complete = true;
-        if ( data.completeFunction != null ) data.completeFunction();
+        if (data.completeFunction != null) data.completeFunction();
       }
     },
 
     size: function(value) {
       var $this = $(this),
-        data = $this.data('eraser');
-      if ( data && value )
-      {
+          data = $this.data('eraser');
+
+      if (data && value) {
         data.size = value;
         data.ctx.lineWidth = value;
       }
@@ -281,14 +291,14 @@
 
     reset: function() {
       var $this = $(this),
-        data = $this.data('eraser');
-      if ( data )
-      {
-        data.ctx.globalCompositeOperation = "source-over";
+          data = $this.data('eraser');
+
+      if (data) {
+        data.ctx.globalCompositeOperation = 'source-over';
         data.ctx.drawImage( data.source, 0, 0 );
-        data.ctx.globalCompositeOperation = "destination-out";
+        data.ctx.globalCompositeOperation = 'destination-out';
         var n = data.numParts;
-        while( n-- ) data.parts[n] = 1;
+        while (n--) data.parts[n] = 1;
         data.ratio = 0;
         data.complete = false;
       }
@@ -296,9 +306,9 @@
 
     progress: function() {
       var $this = $(this),
-        data = $this.data('eraser');
-      if ( data )
-      {
+          data = $this.data('eraser');
+
+      if (data) {
         return data.ratio/data.numParts;
       }
       return 0;
@@ -306,13 +316,13 @@
 
   };
 
-  $.fn.eraser = function( method ) {
-    if ( methods[method] ) {
-      return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-    } else if ( typeof method === 'object' || ! method ) {
-      return methods.init.apply( this, arguments );
+  $.fn.eraser = function(method) {
+    if (methods[method]) {
+      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+    } else if (typeof method === 'object' || ! method) {
+      return methods.init.apply(this, arguments);
     } else {
-      $.error( 'Method ' +  method + ' does not yet exist on jQuery.eraser' );
+      $.error('Method ' +  method + ' does not yet exist on jQuery.eraser');
     }
   };
-})( jQuery );
+})(jQuery);

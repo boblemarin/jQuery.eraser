@@ -1,7 +1,7 @@
 {
   "name": "jquery-eraser",
   "main": "jQuery.eraser.js",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://github.com/boblemarin/jQuery.eraser",
   "description": "Transforms an image into an erasable canvas (with mouse and touch)",
   "keywords": [
