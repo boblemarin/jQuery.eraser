@@ -47,42 +47,43 @@
 * OTHER DEALINGS IN THE SOFTWARE.
 */
 
-(function( $ ){
+(function($){
   var methods = {
-    init : function( options ) {
+    init: function(options) {
       return this.each(function(){
         var $this = $(this),
-          data = $this.data('eraser');
+            data = $this.data('eraser');
 
-        if ( !data ) {
+        if (!data) {
 
           var handleImage = function() {
             var width = $this.width(),
-              height = $this.height(),
-              pos = $this.offset(),
-              $canvas = $("<canvas/>"),
-              canvas = $canvas.get(0),
-              size = ( options && options.size )?options.size:40,
-              completeRatio = ( options && options.completeRatio )?options.completeRatio:.7,
-              completeFunction = ( options && options.completeFunction )?options.completeFunction:null,
-              parts = [],
-              colParts = Math.floor( width / size ),
-              numParts = colParts * Math.floor( height / size ),
-              n = numParts,
-              ctx = canvas.getContext("2d"),
-              that = $this[0];
+                height = $this.height(),
+                pos = $this.offset(),
+                $canvas = $('<canvas/>'),
+                canvas = $canvas.get(0),
+                size = (options && options.size) ? options.size : 40,
+                completeRatio = (options && options.completeRatio) ? options.completeRatio : .7,
+                completeFunction = (options && options.completeFunction) ? options.completeFunction : null,
+                progressFunction = (options && options.progressFunction) ? options.progressFunction : null,
+                parts = [],
+                colParts = Math.floor(width / size),
+                numParts = colParts * Math.floor(height / size),
+                n = numParts,
+                ctx = canvas.getContext('2d'),
+                that = $this[0];
 
             // replace target with canvas
-            $this.after( $canvas );
+            $this.after($canvas);
             canvas.id = that.id;
             canvas.className = that.className;
             canvas.width = width;
             canvas.height = height;
-            ctx.drawImage( that, 0, 0 );
+            ctx.drawImage(that, 0, 0);
             $this.remove();
 
             // prepare context for drawing operations
-            ctx.globalCompositeOperation = "destination-out";
+            ctx.globalCompositeOperation = 'destination-out';
             ctx.strokeStyle = 'rgba(255,0,0,255)';
             ctx.lineWidth = size;
 
@@ -199,10 +200,13 @@
       if ( p >= 0 && p < data.numParts ) {
         data.ratio += data.parts[p];
         data.parts[p] = 0;
-        if ( !data.complete) {
-          if ( data.ratio/data.numParts >= data.completeRatio ) {
+        if (!data.complete) {
+          p = data.ratio/data.numParts;
+          if ( p >= data.completeRatio ) {
             data.complete = true;
             if ( data.completeFunction != null ) data.completeFunction();
+          } else {
+            if ( data.progressFunction != null ) data.progressFunction(p);
           }
         }
       }
@@ -288,6 +292,16 @@
         data.ratio = 0;
         data.complete = false;
       }
+    },
+
+    progress: function() {
+      var $this = $(this),
+        data = $this.data('eraser');
+      if ( data )
+      {
+        return data.ratio/data.numParts;
+      }
+      return 0;
     }
 
   };
