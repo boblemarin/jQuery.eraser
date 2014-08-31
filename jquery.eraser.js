@@ -67,6 +67,7 @@
                 completeRatio = (options && options.completeRatio) ? options.completeRatio : .7,
                 completeFunction = (options && options.completeFunction) ? options.completeFunction : null,
                 progressFunction = (options && options.progressFunction) ? options.progressFunction : null,
+                zIndex = $this.css('z-index') == "auto"?1:$this.css('z-index'),
                 parts = [],
                 colParts = Math.floor(width / size),
                 numParts = colParts * Math.floor(height / size),
@@ -255,6 +256,7 @@
       data.touchY = ty;
       data.ctx.lineTo( data.touchX, data.touchY );
       data.ctx.stroke();
+      $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
       event.preventDefault();
     },
 

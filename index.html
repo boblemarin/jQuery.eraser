@@ -120,22 +120,18 @@
         $('#redux').eraser({
           progressFunction: function(p) {
             $('#progress').html(Math.round(p*100)+'%');
-          },
-          completeRatio: 0.8,
-          completeFunction: function() {
-            alert("Good Job !");
-            $('#progress').html('0%');
-            $('#redux').eraser('reset');
           }
         });
 
         $('#resetBtn').click(function(event) {
           $('#redux').eraser('reset');
+            $('#progress').html('0%');
           event.preventDefault();
         });
 
         $('#clearBtn').click(function(event) {
           $('#redux').eraser('clear');
+            $('#progress').html('100%');
           event.preventDefault();
         });
 
