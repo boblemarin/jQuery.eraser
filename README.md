@@ -54,6 +54,12 @@ If you need to manually query the progress of the user, use the progress method 
 
 	var progress = $('#yourImage').eraser('progress'); // returns a value between 0 and 1
 
+There is also a `progressFunction` option where you can provide a function that will be called each time the user erases a new area. It receives as argument the normalized progress value (0.0 to 1.0).
+
+	$('#yourImage').eraser( {
+		progressFunction: someInterfaceUpdatingFunction
+	});
+
 
 #URLs :
 

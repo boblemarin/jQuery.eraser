@@ -74,11 +74,26 @@
         z-index: 2;
       }
 
+      #progress {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        color: black;
+        pointer-events: none;
+        z-index: 3;
+        text-shadow: 0px 0px 2px #FFFFFF;
+      }
+      small {
+        font-size: 12px;
+        color: #BBB;
+        font-weight: normal;
+      }
+
     </style>
   </head>
   <body>
 
-    <h1>jQuery.eraser()</h1>
+    <h1>jQuery.eraser() <small> 0.5.1</small></h1>
 
     <p>a plugin that replaces the targeted image by an interactive canvas <br/>that can be erased
     using touch ou mouse moves.<br/><b>try by yourself below...</b></p>
@@ -86,6 +101,7 @@
     <span class="container">
       <img id="robot" src="img/robot.jpg" />
       <img id="redux" src="http://minimal.be/lab/jQuery.eraser/img/robot_redux.png" />
+      <div id="progress">0%</div>
     </span>
     <p>
       <div id="resetBtn" class="box"> RESET </div>
@@ -102,10 +118,15 @@
       $(function(){
 
         $('#redux').eraser({
-          // completeFunction: function(){
-          //   alert("Good job !");
-          //   $('#redux').eraser('reset');
-          // }
+          progressFunction: function(p) {
+            $('#progress').html(Math.round(p*100)+'%');
+          },
+          completeRatio: 0.8,
+          completeFunction: function() {
+            alert("Good Job !");
+            $('#progress').html('0%');
+            $('#redux').eraser('reset');
+          }
         });
 
         $('#resetBtn').click(function(event) {

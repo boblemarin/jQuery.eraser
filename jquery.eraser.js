@@ -120,7 +120,8 @@
               ratio: 0,
               complete: false,
               completeRatio: completeRatio,
-              completeFunction: completeFunction
+              completeFunction: completeFunction,
+              progressFunction: progressFunction
             };
             $canvas.data('eraser', data);
 
@@ -301,6 +302,7 @@
         while (n--) data.parts[n] = 1;
         data.ratio = 0;
         data.complete = false;
+        data.touchDown = false;
       }
     },
 
