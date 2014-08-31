@@ -121,7 +121,8 @@
               complete: false,
               completeRatio: completeRatio,
               completeFunction: completeFunction,
-              progressFunction: progressFunction
+              progressFunction: progressFunction,
+              zIndex: zIndex
             };
             $canvas.data('eraser', data);
 
@@ -178,6 +179,7 @@
             data.touchY = ty;
             data.ctx.lineTo(data.touchX, data.touchY);
             data.ctx.stroke();
+            $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
             event.preventDefault();
             break;
           }
