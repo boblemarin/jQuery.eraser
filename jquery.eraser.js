@@ -58,12 +58,26 @@
         if (!data) {
 
           var handleImage = function() {
-            var width = $this.width(),
-                height = $this.height(),
-                pos = $this.offset(),
-                $canvas = $('<canvas/>'),
+            var $canvas = $('<canvas/>'),
                 canvas = $canvas.get(0),
-                size = (options && options.size) ? options.size : 40,
+                ctx = canvas.getContext('2d'),
+
+                // calculate scale ratio for high DPI devices
+                // http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+                devicePixelRatio = window.devicePixelRatio || 1,
+                backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                    ctx.mozBackingStorePixelRatio ||
+                    ctx.msBackingStorePixelRatio ||
+                    ctx.oBackingStorePixelRatio ||
+                    ctx.backingStorePixelRatio || 1,
+                scaleRatio = devicePixelRatio / backingStoreRatio,
+
+                realWidth = $this.width(),
+                realHeight = $this.height(),
+                width = realWidth * scaleRatio,
+                height = realHeight * scaleRatio,
+                pos = $this.offset(),
+                size = ((options && options.size) ? options.size : 40) * scaleRatio,
                 completeRatio = (options && options.completeRatio) ? options.completeRatio : .7,
                 completeFunction = (options && options.completeFunction) ? options.completeFunction : null,
                 progressFunction = (options && options.progressFunction) ? options.progressFunction : null,
@@ -72,7 +86,6 @@
                 colParts = Math.floor(width / size),
                 numParts = colParts * Math.floor(height / size),
                 n = numParts,
-                ctx = canvas.getContext('2d'),
                 that = $this[0];
 
             // replace target with canvas
@@ -81,6 +94,8 @@
             canvas.className = that.className;
             canvas.width = width;
             canvas.height = height;
+            canvas.style.width = realWidth.toString() + "px";
+            canvas.style.height = realHeight.toString() + "px";
             ctx.drawImage(that, 0, 0);
             $this.remove();
 
@@ -113,6 +128,7 @@
               ctx: ctx,
               w: width,
               h: height,
+              scaleRatio: scaleRatio,
               source: that,
               size: size,
               parts: parts,
@@ -153,6 +169,8 @@
         var t = event.originalEvent.changedTouches[0],
             tx = t.pageX - data.posX,
             ty = t.pageY - data.posY;
+        tx *= data.scaleRatio;
+        ty *= data.scaleRatio;
         methods.evaluatePoint(data, tx, ty);
         data.touchDown = true;
         data.touchID = t.identifier;
@@ -173,6 +191,8 @@
           if (ta[n].identifier == data.touchID) {
             var tx = ta[n].pageX - data.posX,
                 ty = ta[n].pageY - data.posY;
+            tx *= data.scaleRatio;
+            ty *= data.scaleRatio;
             methods.evaluatePoint(data, tx, ty);
             data.ctx.beginPath();
             data.ctx.moveTo(data.touchX, data.touchY);
@@ -229,6 +249,8 @@
           data = $this.data('eraser'),
           tx = event.pageX - data.posX,
           ty = event.pageY - data.posY;
+      tx *= data.scaleRatio;
+      ty *= data.scaleRatio;
 
       methods.evaluatePoint( data, tx, ty );
       data.touchDown = true;
@@ -248,6 +270,8 @@
           data = $this.data('eraser'),
           tx = event.pageX - data.posX,
           ty = event.pageY - data.posY;
+      tx *= data.scaleRatio;
+      ty *= data.scaleRatio;
 
       methods.evaluatePoint( data, tx, ty );
       data.ctx.beginPath();
