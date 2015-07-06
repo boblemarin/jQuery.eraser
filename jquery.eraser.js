@@ -96,7 +96,7 @@
             canvas.height = height;
             canvas.style.width = realWidth.toString() + "px";
             canvas.style.height = realHeight.toString() + "px";
-            ctx.drawImage(that, 0, 0);
+            ctx.drawImage(that, 0, 0, width, height);
             $this.remove();
 
             // prepare context for drawing operations
@@ -324,7 +324,7 @@
 
       if (data) {
         data.ctx.globalCompositeOperation = 'source-over';
-        data.ctx.drawImage( data.source, 0, 0 );
+        data.ctx.drawImage( data.source, 0, 0, data.w, data.h);
         data.ctx.globalCompositeOperation = 'destination-out';
         var n = data.numParts;
         while (n--) data.parts[n] = 1;
