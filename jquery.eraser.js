@@ -13,7 +13,15 @@
 *  completeFunction: myFunction // callback function when complete ratio is reached
 * } );
 *
+*
+*
 * $('#image').eraser('revert'); // Activates revert mode
+*
+* PLEASE NOTE THAT THE REVERT MODE WON'T BE ACCESSIBLE WITH FOREIGN DOMAIN
+* IMAGES FOR SECURITY REASONS. YOU CAN NOT GO "canvas.toDataURL()" IF IMAGES
+* ARE NOT ON THE SAME DOMAIN.
+*
+*
 * $('#image').eraser('eraser'); // Goes back to normal mode
 *
 *
