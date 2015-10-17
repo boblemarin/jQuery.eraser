@@ -1,4 +1,4 @@
-#jQuery.eraser v0.5.1
+#jQuery.eraser v0.6
 
 a jQuery plugin that makes an image erasable (with mouse or touch movements)
 
@@ -6,7 +6,13 @@ This plugin replaces the targeted image by an interactive canvas that can be era
 
 Please note that I don't claim that the completion detection process is ultimately accurate. In fact you should rather use a completeRatio around 0.8 if you want a near-complete erase process.
 
-#What's new in 0.5.1 
+#What's new in 0.6
+
+Added a 'blur' feature that allows a blur effect on the drawing tool.
+Added a 'revert mode' feature that allow the user to draw back what he erased
+Updated the progressFunction accordingly.
+
+#What was new in 0.5.1 
 
 Added a 'progress' method (see details in the Usage section)
 

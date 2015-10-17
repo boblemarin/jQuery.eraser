@@ -8,10 +8,22 @@
 * $('#myImage').eraser(); // simple way
 *
 * $(#canvas').eraser( {
-*   size: 20, // define brush size (default value is 40)
-*   completeRatio: .65, // allows to call function when a erased ratio is reached (between 0 and 1, default is .7 )
-*   completeFunction: myFunction // callback function when complete ratio is reached
+*  size: 20, // define brush size (default value is 40)
+*  completeRatio: .65, // allows to call function when a erased ratio is reached (between 0 and 1, default is .7 )
+*  completeFunction: myFunction // callback function when complete ratio is reached
 * } );
+*
+*
+*
+* $('#image').eraser('revert'); // Activates revert mode
+*
+* PLEASE NOTE THAT THE REVERT MODE WON'T BE ACCESSIBLE WITH FOREIGN DOMAIN
+* IMAGES FOR SECURITY REASONS. YOU CAN NOT GO "canvas.toDataURL()" IF IMAGES
+* ARE NOT ON THE SAME DOMAIN.
+*
+*
+* $('#image').eraser('eraser'); // Goes back to normal mode
+*
 *
 * $('#image').eraser( 'clear' ); // erases all canvas content
 *
@@ -86,7 +98,8 @@
                 colParts = Math.floor(width / size),
                 numParts = colParts * Math.floor(height / size),
                 n = numParts,
-                that = $this[0];
+                that = $this[0],
+                preview_image = $this.prev('img').get(0);
 
             // replace target with canvas
             $this.after($canvas);
@@ -129,6 +142,8 @@
               w: width,
               h: height,
               scaleRatio: scaleRatio,
+              orig_image: undefined,
+              preview_image: preview_image,
               source: that,
               size: size,
               parts: parts,
@@ -139,7 +154,8 @@
               completeRatio: completeRatio,
               completeFunction: completeFunction,
               progressFunction: progressFunction,
-              zIndex: zIndex
+              zIndex: zIndex,
+              blur: (options && options.blur) ? options.blur : 0
             };
             $canvas.data('eraser', data);
 
@@ -196,6 +212,18 @@
             methods.evaluatePoint(data, tx, ty);
             data.ctx.beginPath();
             data.ctx.moveTo(data.touchX, data.touchY);
+
+            if (data.blur) {
+              data.ctx.shadowBlur = data.blur;
+              data.ctx.shadowColor = 'rgb(255, 255, 255)';
+            }
+
+            if (data.reverse) {
+              data.ctx.shadowBlur = 0;
+              data.ctx.shadowColor = 'rgb(255, 255, 255, 0)';
+            }
+
+
             data.touchX = tx;
             data.touchY = ty;
             data.ctx.lineTo(data.touchX, data.touchY);
@@ -229,8 +257,20 @@
       var p = Math.floor(tx/data.size) + Math.floor( ty / data.size ) * data.colParts;
 
       if ( p >= 0 && p < data.numParts ) {
-        data.ratio += data.parts[p];
-        data.parts[p] = 0;
+
+        // Fixed the progressMethod
+        // If we are ERASING, we need to REMOVE the parts
+        // else, we add it. Simple as that!
+        if (!data.parts[p] && data.reverse) {
+          data.parts[p] = 1;
+          data.ratio -= data.parts[p];
+        } else {
+          if (!data.reverse) {
+            data.ratio += data.parts[p];
+            data.parts[p] = 0;
+          }
+        }
+
         if (!data.complete) {
           p = data.ratio/data.numParts;
           if ( p >= data.completeRatio ) {
@@ -257,6 +297,16 @@
       data.touchX = tx;
       data.touchY = ty;
       data.ctx.beginPath();
+
+      if (data.blur) {
+        data.ctx.shadowBlur = data.blur;
+        data.ctx.shadowColor = 'rgb(255, 255, 255)';
+      }
+      if (data.reverse) {
+        data.ctx.shadowBlur = 0;
+        data.ctx.shadowColor = 'rgb(255, 255, 255, 0)';
+      }
+
       data.ctx.moveTo(data.touchX-1, data.touchY);
       data.ctx.lineTo(data.touchX, data.touchY);
       data.ctx.stroke();
@@ -278,6 +328,16 @@
       data.ctx.moveTo( data.touchX, data.touchY );
       data.touchX = tx;
       data.touchY = ty;
+
+      if (data.blur) {
+        data.ctx.shadowBlur = data.blur;
+        data.ctx.shadowColor = 'rgb(255, 255, 255)';
+      }
+      if (data.reverse) {
+        data.ctx.shadowBlur = 0;
+        data.ctx.shadowColor = 'rgb(255, 255, 255, 0)';
+      }
+
       data.ctx.lineTo( data.touchX, data.touchY );
       data.ctx.stroke();
       $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
@@ -299,6 +359,21 @@
           data = $this.data('eraser');
 
       if (data) {
+
+
+        // Assumptions were made in the plugin
+        // The easy way of dealing with it is to
+        // reset the stage before doing those actions.
+        if (data.reverse && data.orig_image) {
+          data.preview_image.src = data.orig_image;
+          $this.eraser('eraser', function() {
+            $this.eraser('clear');
+          });
+
+          return this;
+        }
+
+
         data.ctx.clearRect(0, 0, data.w, data.h);
         var n = data.numParts;
         while(n--) data.parts[n] = 0;
@@ -317,12 +392,154 @@
         data.ctx.lineWidth = value;
       }
     },
+    blur: function(value) {
+      var $this = $(this),
+          data = $this.data('eraser');
 
+      if (data && value) {
+        data.blur = value;
+        // data.ctx.lineWidth = value;
+      }
+    },
+
+    /**
+    * Eraser whatever you draw on the canvas.
+    * This is tricky, so let me explain.
+    * The plugin is an ERASER, but uses the DRAW function.
+    * Here, we're talking about removing whatever drawing you did,
+    * which just looks like painting it back.
+    * @return {thisArg}
+    */
+    revert: function(cb)
+    {
+
+      var $this = $(this),
+        data = $this.data('eraser');
+
+      // Don't do this twice
+      if (data.reverse) {
+        return this;
+      }
+      data.reverse = true;
+
+      // The image as erased (the thing you want to revert...).
+      // This saves your ACTUAL drawings.
+      console.log(data);
+      console.log(data.canvas.get(0));
+      var drawn_image = data.canvas.get(0).toDataURL();
+
+      // Source image, the one the canvas replaces (front layer).
+      var source = data.source;
+
+      // The image you reveal when you "draw" on the canvas
+      // Should become the background layer.
+      var img = data.preview_image;
+      var background_layer_img = new Image();
+
+      // Keep copy, we'll talk about this later
+      data.orig_image = img.src;
+
+      // The source image should now be added as
+      // a background to the current canvas
+      background_layer_img.src = data.orig_image;
+
+      // Switch the source image to the front image
+      // That way, you are reverting the drawing by setting
+      // the front layer as a background layer
+      img.src = source.src;
+
+      // Get current composition
+      var dataUrl = data.canvas.get(0).toDataURL();
+
+
+      var preload_img = new Image();
+      preload_img.onload = function()
+      {
+        // Prevent the blur when image changes
+        if (data.blur) {
+          data.ctx.shadowBlur = 0;
+          data.ctx.shadowColor = 'rgb(255, 255, 255)';
+        }
+
+        if (data.reverse) {
+          data.ctx.shadowBlur = 0;
+          data.ctx.shadowColor = 'rgb(255, 255, 255, 0)';
+        }
+
+        data.ctx.globalCompositeOperation = 'source-over';
+        data.ctx.drawImage(background_layer_img, 0, 0, data.w, data.h);
+        data.ctx.drawImage(preload_img, 0, 0, data.w, data.h);
+        data.ctx.globalCompositeOperation = 'destination-out';
+
+        if (typeof cb == 'function') {
+          cb();
+        }
+      }
+      preload_img.src = dataUrl;
+
+      return this;
+
+    },
+    /**
+    *
+    */
+    eraser: function(cb) {
+      var $this = $(this),
+        data = $this.data('eraser');
+
+      // Don't do this twice
+      if (!data.reverse || !data.orig_image) {
+        return false;
+      }
+      data.reverse = false;
+
+      // The image as erased (the thing you want to revert...).
+      var drawn_image = data.canvas.get(0).toDataURL();
+
+      // Source image, the one we'll add right before.
+      var source = data.source;
+
+      var img = data.preview_image;
+      var old_img = new Image();
+
+
+      // Get current composition
+      var dataUrl = data.canvas.get(0).toDataURL();
+
+      var preload_img = new Image();
+      preload_img.onload = function()
+      {
+        data.ctx.globalCompositeOperation = 'source-over';
+        data.ctx.drawImage(source, 0, 0, data.w, data.h);
+        data.ctx.drawImage(preload_img, 0, 0, data.w, data.h);
+        data.ctx.globalCompositeOperation = 'destination-out';
+
+        // Switch the source image to the front image
+        // That way, you are reverting the drawing.
+        img.src = data.orig_image;
+
+        if (typeof cb == 'function') {
+          cb();
+        }
+      }
+      preload_img.src = dataUrl;
+    },
     reset: function() {
       var $this = $(this),
           data = $this.data('eraser');
 
       if (data) {
+        // Assumptions were made in the plugin
+        // The easy way of dealing with it is to
+        // reset the stage before doing those actions.
+        if (data.reverse && data.orig_image) {
+          data.preview_image.src = data.orig_image;
+          $this.eraser('eraser', function() {
+            $this.eraser('reset');
+          });
+
+          return this;
+        }
         data.ctx.globalCompositeOperation = 'source-over';
         data.ctx.drawImage( data.source, 0, 0, data.w, data.h);
         data.ctx.globalCompositeOperation = 'destination-out';

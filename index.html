@@ -100,12 +100,13 @@
     <p><code id="percent">$("#myImage").eraser();</code></p>
     <span class="container">
       <img id="robot" src="img/robot.jpg" />
-      <img id="redux" src="http://minimal.be/lab/jQuery.eraser/img/robot_redux.png" />
+      <img id="redux" src="img/robot_redux.png" />
       <div id="progress">0%</div>
     </span>
     <p>
       <div id="resetBtn" class="box"> RESET </div>
       <div id="clearBtn" class="box"> CLEAR </div>
+      <div id="pencilBtn" class="box"> PENCIL </div>
     </p>
 
     <p><a href="https://github.com/boblemarin/jQuery.eraser" class="big">Download on github</a><br/> ... and <a href="http://minimal.be/@">follow boblemarin</a><br/>
@@ -118,6 +119,7 @@
       $(function(){
 
         $('#redux').eraser({
+          blur: 25,
           progressFunction: function(p) {
             $('#progress').html(Math.round(p*100)+'%');
           }
@@ -132,6 +134,19 @@
         $('#clearBtn').click(function(event) {
           $('#redux').eraser('clear');
             $('#progress').html('100%');
+          event.preventDefault();
+        });
+
+        $('#pencilBtn').click(function(event) {
+
+          if ($('#redux').data('eraser').reverse) {
+            $(this).text(' PENCIL ');
+            $('#redux').eraser('eraser');
+          } else {
+            $(this).text(' ERASER ');
+            $('#redux').eraser('revert');
+          }
+
           event.preventDefault();
         });
 
