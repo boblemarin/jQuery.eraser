@@ -106,6 +106,7 @@
     <p>
       <div id="resetBtn" class="box"> RESET </div>
       <div id="clearBtn" class="box"> CLEAR </div>
+      <div id="toggleBtn" class="box"> DISABLE </div>
     </p>
 
     <p><a href="https://github.com/boblemarin/jQuery.eraser" class="big">Download on github</a><br/> ... and <a href="http://minimal.be/@">follow boblemarin</a><br/>
@@ -116,7 +117,6 @@
     <script type = "text/javascript">
 
       $(function(){
-
         $('#redux').eraser({
           progressFunction: function(p) {
             $('#progress').html(Math.round(p*100)+'%');
@@ -132,6 +132,21 @@
         $('#clearBtn').click(function(event) {
           $('#redux').eraser('clear');
             $('#progress').html('100%');
+          event.preventDefault();
+        });
+
+        $('#toggleBtn').click(function(event) {
+          var $redux = $('#redux'),
+            $toggleBtn = $('#toggleBtn');
+
+          if ($redux.eraser('enabled')) {
+            $toggleBtn.text(' ENABLE ');
+            $redux.eraser('disable');
+          } else {
+            $toggleBtn.text(' DISABLE ');
+            $redux.eraser('enable');
+          }
+
           event.preventDefault();
         });
 
