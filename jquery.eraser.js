@@ -7,7 +7,7 @@
 *
 * $('#myImage').eraser(); // simple way
 *
-* $(#canvas').eraser( {
+* $('#canvas').eraser( {
 *   size: 20, // define brush size (default value is 40)
 *   completeRatio: .65, // allows to call function when a erased ratio is reached (between 0 and 1, default is .7 )
 *   completeFunction: myFunction // callback function when complete ratio is reached
