@@ -1,5 +1,5 @@
 /*
-* jQuery.eraser v0.5.1
+* jQuery.eraser v0.5.2
 * makes any image or canvas erasable by the user, using touch or mouse input
 * https://github.com/boblemarin/jQuery.eraser
 *
@@ -7,7 +7,7 @@
 *
 * $('#myImage').eraser(); // simple way
 *
-* $(#canvas').eraser( {
+* $('#canvas').eraser( {
 *   size: 20, // define brush size (default value is 40)
 *   completeRatio: .65, // allows to call function when a erased ratio is reached (between 0 and 1, default is .7 )
 *   completeFunction: myFunction // callback function when complete ratio is reached
@@ -18,6 +18,10 @@
 * $('#image').eraser( 'reset' ); // revert back to original content
 *
 * $('#image').eraser( 'size', 80 ); // change the eraser size
+*
+* $('#image').eraser( 'enable/disable' ); // enable or disable erasing
+*
+* $('#image').eraser( 'enabled' ); // returns whether the eraser is enabled
 *
 *
 * https://github.com/boblemarin/jQuery.eraser
@@ -77,6 +81,7 @@
                 width = realWidth * scaleRatio,
                 height = realHeight * scaleRatio,
                 pos = $this.offset(),
+                enabled = (options && options.enabled === false) ? false : true,
                 size = ((options && options.size) ? options.size : 40) * scaleRatio,
                 completeRatio = (options && options.completeRatio) ? options.completeRatio : .7,
                 completeFunction = (options && options.completeFunction) ? options.completeFunction : null,
@@ -135,6 +140,7 @@
               colParts: colParts,
               numParts: numParts,
               ratio: 0,
+              enabled: enabled,
               complete: false,
               completeRatio: completeRatio,
               completeFunction: completeFunction,
@@ -171,7 +177,11 @@
             ty = t.pageY - data.posY;
         tx *= data.scaleRatio;
         ty *= data.scaleRatio;
-        methods.evaluatePoint(data, tx, ty);
+
+        if (data.enabled) {
+          methods.evaluatePoint(data, tx, ty);
+        }
+
         data.touchDown = true;
         data.touchID = t.identifier;
         data.touchX = tx;
@@ -193,14 +203,19 @@
                 ty = ta[n].pageY - data.posY;
             tx *= data.scaleRatio;
             ty *= data.scaleRatio;
-            methods.evaluatePoint(data, tx, ty);
-            data.ctx.beginPath();
-            data.ctx.moveTo(data.touchX, data.touchY);
+
+            if (data.enabled) {
+              methods.evaluatePoint(data, tx, ty);
+              data.ctx.beginPath();
+              data.ctx.moveTo(data.touchX, data.touchY);
+              data.ctx.lineTo(tx, ty);
+              data.ctx.stroke();
+              $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
+            }
+
             data.touchX = tx;
             data.touchY = ty;
-            data.ctx.lineTo(data.touchX, data.touchY);
-            data.ctx.stroke();
-            $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
+
             event.preventDefault();
             break;
           }
@@ -226,6 +241,7 @@
     },
 
     evaluatePoint: function(data, tx, ty) {
+      if (!data.enabled) return;
       var p = Math.floor(tx/data.size) + Math.floor( ty / data.size ) * data.colParts;
 
       if ( p >= 0 && p < data.numParts ) {
@@ -252,14 +268,19 @@
       tx *= data.scaleRatio;
       ty *= data.scaleRatio;
 
-      methods.evaluatePoint( data, tx, ty );
       data.touchDown = true;
       data.touchX = tx;
       data.touchY = ty;
-      data.ctx.beginPath();
-      data.ctx.moveTo(data.touchX-1, data.touchY);
-      data.ctx.lineTo(data.touchX, data.touchY);
-      data.ctx.stroke();
+
+      if (data.enabled) {
+        methods.evaluatePoint( data, tx, ty );
+
+        data.ctx.beginPath();
+        data.ctx.moveTo(data.touchX-1, data.touchY);
+        data.ctx.lineTo(data.touchX, data.touchY);
+        data.ctx.stroke();
+      }
+
       $this.bind('mousemove.eraser', methods.mouseMove);
       $(document).bind('mouseup.eraser', data, methods.mouseUp);
       event.preventDefault();
@@ -273,14 +294,18 @@
       tx *= data.scaleRatio;
       ty *= data.scaleRatio;
 
-      methods.evaluatePoint( data, tx, ty );
-      data.ctx.beginPath();
-      data.ctx.moveTo( data.touchX, data.touchY );
+      if (data.enabled) {
+        methods.evaluatePoint( data, tx, ty );
+        data.ctx.beginPath();
+        data.ctx.moveTo( data.touchX, data.touchY );
+        data.ctx.lineTo( tx, ty );
+        data.ctx.stroke();
+        $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
+      }
+
       data.touchX = tx;
       data.touchY = ty;
-      data.ctx.lineTo( data.touchX, data.touchY );
-      data.ctx.stroke();
-      $this.css({"z-index":$this.css('z-index')==data.zIndex?parseInt(data.zIndex)+1:data.zIndex});
+
       event.preventDefault();
     },
 
@@ -305,6 +330,34 @@
         data.ratio = data.numParts;
         data.complete = true;
         if (data.completeFunction != null) data.completeFunction();
+      }
+    },
+
+    enabled: function() {
+      var $this = $(this),
+          data = $this.data('eraser');
+
+      if (data && data.enabled) {
+        return true;
+      }
+      return false;
+    },
+
+    enable: function() {
+      var $this = $(this),
+          data = $this.data('eraser');
+
+      if (data) {
+        data.enabled = true;
+      }
+    },
+
+    disable: function() {
+      var $this = $(this),
+          data = $this.data('eraser');
+
+      if (data) {
+        data.enabled = false;
       }
     },
 
