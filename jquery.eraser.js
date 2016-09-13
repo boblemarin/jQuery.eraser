@@ -161,7 +161,7 @@
             handleImage();
           } else {
             //this.onload = handleImage;
-            $this.load(handleImage);
+            $this.on('load', handleImage);
           }
         }
       });
